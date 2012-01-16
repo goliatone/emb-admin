@@ -2,6 +2,9 @@
 
 class Controller_Admin_Dashboard extends Controller_Backend
 {
+	public $layout = "admin/dashboard";
+	protected $_partials  = array('content'=> '', 'footer'=> '', 'header'=> '');
+	
 	/**
 	 * 
 	 */
@@ -9,18 +12,20 @@ class Controller_Admin_Dashboard extends Controller_Backend
 	
 	public function action_index()
 	{
-		$this->action_scope = 'login';
-		$paths = $this->request->directory().DIRECTORY_SEPARATOR.$this->controller.DIRECTORY_SEPARATOR.$this->action_scope.DIRECTORY_SEPARATOR.$this->action;
-		//$this->action_scope = '';
 		
-		$ar = array($this->request->directory(),$this->controller,$this->action_scope,$this->action);
+		//Dashboard content is just gatehered from all over our application, givin each module the
+		//change to add to it. 
+		 
+		$content = '';
+		$event = new Event("content.dashboard");
+		$event->bind('dashboard_content', $content);
 		
-		$content = $paths.'<br/>';
-		$content .= implode(DIRECTORY_SEPARATOR,array_filter($ar)).'<br/>';
-		$content .= Auth::instance()->hash('admin').'<br/>';
+		Dispatcher::instance()->dispatch_event($event);
+		
 		$this->template->content->set("content", $content);
 		
-		$this->template->sidebar->set("content","<p>What the fuck is this crap?</p>");
+		$sidebar_content = "<p>What the fuck is this crap? Are we ready or not</p>";
+		$this->template->sidebar->bind("content",$sidebar_content);
 	}
 	
 }	

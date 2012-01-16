@@ -37,8 +37,15 @@ Route::set('emb-admin-user', 'admin/user/(<controller>(/<action>(/<params>)))', 
 	'controller' => 'profile',    
     'action'     => 'index',
   ));
-  
-
+ 
+/**
+ * Widget route, used to render internally content that is not a full page.
+ */
+Route::set('emb-widget', 'widget/(<controller>(/<action>(/<params>)))', array('params' => '.*'))
+  ->defaults(array(
+    'directory'  => 'widget',
+    'action'     => 'index',
+  ));
 #################################
 ## REGISTER EVENT LISTENER FOR
 ## MAIN ADMIN MENU.

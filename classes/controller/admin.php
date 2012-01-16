@@ -61,7 +61,9 @@ class Controller_Admin extends Controller_Layout
 			
             //go to the home page if successful
            // $this->_redirect_user('redirect_on_login');
-		   $this->request->redirect('admin/dashboard');
+           $default_redirect = Kohana::$config->load('admin.default_redirect');
+           $redirect = Session::instance()->get('admin.redirect',$default_redirect);		   
+		   $this->request->redirect($redirect);
         }
 	}
 	

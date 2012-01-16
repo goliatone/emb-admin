@@ -16,6 +16,11 @@ class Controller_Core_Backend extends Controller_Layout
     public $auth_required = 'admin';    
     
 	/**
+	 * 
+	 */
+	public $auth_skip_actions = FALSE;
+	
+	/**
 	 * @var	Model_Auth_User
 	 */
 	protected $user = NULL;
@@ -31,6 +36,13 @@ class Controller_Core_Backend extends Controller_Layout
 	protected $_auth;
 	
 	/**
+	 * Made available to all views.
+	 *
+	 * @var string	Route name for this controller. 
+	 */
+	protected $_route_name = 'emb-admin-controller';
+	
+	/**
 	 * 
 	 */
 	public function before()
@@ -42,6 +54,7 @@ class Controller_Core_Backend extends Controller_Layout
 		
 		$this->user = Auth::instance()->get_user();
 		View::set_global('user',$this->user);
+		View::set_global('_route_name',$this->_route_name);
 		
         parent::before();
     }
@@ -113,6 +126,8 @@ class Controller_Core_Backend extends Controller_Layout
 	public function secured_access()
 	{
 		Notice::error("You have to be logged in", $this->request->controller());
+		$redirect = $this->request->uri();
+		Session::instance()->set('admin.redirect',$redirect);
 		$this->request->redirect('admin/login');
 	}
 	
@@ -164,6 +179,8 @@ class Controller_Core_Backend extends Controller_Layout
 		
 		$action  = $this->request->action();
 		$action_is_restricted = array_key_exists($action, $actions);
+		
+		//$action_is_skipped	  = array_key_exists($action,$this->auth_skip_actions);
 		
 		//current action is not restricted
 		if( ! $action_is_restricted)

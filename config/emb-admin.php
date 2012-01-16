@@ -2,13 +2,16 @@
 
 return array(
 	//set up hardcoded password. We should make sure that we change this!
-	'setup' => array('password' => 'secret'),
+	'setup' => array('password' => 'secret')
+	,'admin' => array(
+		'default_redirect' => 'admin/dashboard'	
+	)
     /**
      * The number of failed logins allowed can be specified here:
      * If the user mistypes their password X times, then they will not be permitted to log in during the jail time.
      * This helps prevent brute-force attacks.
      */
-   'auth' => array(
+   ,'auth' => array(
       /**
        * Define the maximum failed attempts to login
        * set 0 to disable the login jail
@@ -19,11 +22,11 @@ return array(
        * wait before his next attempt
        */
       'login_jail_time' => "5 minutes",
-    ),
+    )
     /**
      * 3rd party providers supported/allowed.
      */
-    'providers' => array(
+    ,'providers' => array(
        /**
         * Toggle Facebook support: if set, then users can log in using Facebook.
         *
