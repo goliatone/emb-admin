@@ -27,6 +27,7 @@ class Controller_Core_Crud extends Controller_Backend
 		$link_new = $this->generate_link('new');
 
 		$view = $this->template->content;
+		$view->set('_resource',$this->_resource);
 		$view->set("elements", $elements);
 		$view->set("link_new", $link_new);
 	}
